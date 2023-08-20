@@ -11,13 +11,15 @@ import { Form, Formik } from "formik";
 import { TextField } from "@mui/material";
 import { object, string, number, date, InferType } from "yup";
 import { LoadingButton } from "@mui/lab";
+import useAuthCall from "../hooks/useAuthCall";
+
 
 const Login = () => {
   const navigate = useNavigate();
   const { currentUser, error, loading } = useSelector((state) => state?.auth);
 
   //! yup ile validasyon yapılacak
-
+const {login} = useAuthCall()
   const loginSchema = object({
     email: string()
       .email("Lutfen valid bir email giriniz")
@@ -72,6 +74,7 @@ const Login = () => {
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
               //todo login(values)
+              login(values)
               //todo post and navigate
               actions.resetForm();
               actions.setSubmitting(false);
