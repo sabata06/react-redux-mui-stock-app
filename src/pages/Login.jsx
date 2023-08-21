@@ -1,38 +1,25 @@
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import LockIcon from "@mui/icons-material/Lock";
-import image from "../assets/result.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Form, Formik } from "formik";
-import { TextField } from "@mui/material";
-import { object, string, number, date, InferType } from "yup";
-import { LoadingButton } from "@mui/lab";
-import useAuthCall from "../hooks/useAuthCall";
-
+import Avatar from "@mui/material/Avatar"
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Typography from "@mui/material/Typography"
+import LockIcon from "@mui/icons-material/Lock"
+import image from "../assets/result.svg"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { Formik, Form } from "formik"
+import TextField from "@mui/material/TextField"
+import { object, string } from "yup"
+import LoadingButton from "@mui/lab/LoadingButton"
+import useAuthCall from "../hooks/useAuthCall"
+import LoginForm, { loginScheme } from "../components/LoginForm"
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { currentUser, error, loading } = useSelector((state) => state?.auth);
+  const navigate = useNavigate()
+  const { currentUser, error, loading } = useSelector((state) => state?.auth)
 
-  //! yup ile validasyon yapılacak
-const {login} = useAuthCall()
-  const loginSchema = object({
-    email: string()
-      .email("Lutfen valid bir email giriniz")
-      .required("Email zorunludur"),
-    password: string()
-      .required("password zorunludur")
-      .min(8, "password en az 8 karakter olmalıdır")
-      .max(20, "password en fazla 20 karakter olmalıdır")
-      .matches(/\d+/, "Password bir sayı içermelidir")
-      .matches(/[a-z]/, "Password bir küçük harf içermelidir")
-      .matches(/[A-Z]/, "Password bir büyük harf içermelidir")
-      .matches(/[!,?{}><%&$#£+-.]+/, "Password bir özel karakter içermelidir"),
-  });
+  const { login } = useAuthCall()
+
   return (
     <Container maxWidth="lg">
       <Grid
@@ -69,56 +56,18 @@ const {login} = useAuthCall()
           >
             Login
           </Typography>
+
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={loginSchema}
+            validationSchema={loginScheme}
             onSubmit={(values, actions) => {
-              //todo login(values)
               login(values)
-              //todo post and navigate
-              actions.resetForm();
-              actions.setSubmitting(false);
+              actions.resetForm()
+              actions.setSubmitting(false)
             }}
-          >
-            {({ values, handleChange, handleBlur, errors, touched }) => (
-              <Form>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <TextField
-                    label="Email"
-                    name="email"
-                    id="email"
-                    type="email"
-                    variant="outlined"
-                    value={values.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={touched.email && errors.email}
-                  />
-                  <TextField
-                    label="Password"
-                    name="password"
-                    id="password"
-                    type="password"
-                    variant="outlined"
-                    value={values.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    helperText={touched.password && errors.password}
-                    error={touched.password && Boolean(errors.password)}
-                  />
-                  <LoadingButton
-                    loading={loading}
-                    loadingPosition="center"
-                    variant="contained"
-                    type="submit"
-                  >
-                    Submit
-                  </LoadingButton>
-                </Box>
-              </Form>
-            )}
-          </Formik>
+            component={(props) => <LoginForm {...props} />}
+          ></Formik>
+
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="/register">Do you have not an account?</Link>
           </Box>
@@ -131,7 +80,7 @@ const {login} = useAuthCall()
         </Grid>
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
