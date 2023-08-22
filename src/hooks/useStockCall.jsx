@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFail, fetchStart, getSuccess } from "../features/stockSlice";
 import useAxios from "./useAxios";
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 const useStockCall = () => {
   const dispatch = useDispatch();
@@ -29,20 +30,17 @@ const {data} = await axiosWithToken(`stock/${url}`)
     }
   };
   const deleteStockData = async (url, id) => {
-    // const BASE_URL = "https://meyymetbaba.pythonanywhere.com/";
-    dispatch(fetchStart());
-
+    dispatch(fetchStart())
     try {
-      await axiosWithToken.delete(`stock/${url}/${id}`, {
-        // headers: { Authorization: `Token ${token}` },
-      });
-
-      getStockData(url);
+      await axiosWithToken.delete(`stock/${url}/${id}/`)
+      toastSuccessNotify(`${url} successfuly deleted`)
+      getStockData(url)
     } catch (error) {
-      console.log(error);
-      dispatch(fetchFail());
+      console.log(error)
+      dispatch(fetchFail())
+      toastErrorNotify(`${url} can not be deleted`)
     }
-  };
+  }
 
   return { getStockData, deleteStockData };
 };
