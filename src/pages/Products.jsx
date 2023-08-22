@@ -2,10 +2,8 @@ import { Button } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-
 import ProductModal from "../components/modals/ProductModal"
 import useStockCall from "../hooks/useStockCall"
-
 import * as React from "react"
 import Box from "@mui/material/Box"
 import { DataGrid, GridActionsCellItem, GridToolbar } from "@mui/x-data-grid"

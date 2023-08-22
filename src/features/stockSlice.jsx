@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const stockSlice = createSlice({
   name: "stock",
@@ -15,12 +15,12 @@ const stockSlice = createSlice({
   },
   reducers: {
     fetchStart: (state) => {
-      state.loading = true
-      state.error = false
+      state.loading = true;
+      state.error = false;
     },
     getSuccess: (state, { payload: { data, url } }) => {
-      state.loading = false
-      state[url] = data
+      state.loading = false;
+      state[url] = data;
     },
     // getSuccessSales: (state, { payload }) => {
     //   state.loading = false
@@ -31,19 +31,19 @@ const stockSlice = createSlice({
     //   state.purchases = payload
     // },
     getProCatBrandSuccess: (state, { payload }) => {
-      state.loading = false
-      state.products = payload[0]
-      state.categories = payload[1]
-      state.brands = payload[2]
+      state.loading = false;
+      state.products = payload[0];
+      state.categories = payload[1];
+      state.brands = payload[2];
     },
 
     fetchFail: (state) => {
-      state.loading = false
-      state.error = true
+      state.loading = false;
+      state.error = true;
     },
   },
-})
+});
 
 export const { fetchStart, getSuccess, fetchFail, getProCatBrandSuccess } =
-  stockSlice.actions
-export default stockSlice.reducer
+  stockSlice.actions;
+export default stockSlice.reducer;
