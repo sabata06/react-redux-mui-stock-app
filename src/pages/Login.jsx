@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography"
 import LockIcon from "@mui/icons-material/Lock"
 import image from "../assets/result.svg"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 import { Formik} from "formik"
 
 
